@@ -6,9 +6,13 @@
 
 optee_os:
 	@[ $(DESTARCH) != arm64 -o $(DISTROVARIANT) = tiny -o $(DISTROVARIANT) = base ] && exit || \
+	 curbrch=`cd $(SECDIR)/optee_os && git branch | grep ^* | cut -d' ' -f2` && \
 	 $(call fbprint_b,"optee_os") && \
 	 $(call repo-mngr,fetch,optee_os,apps/security) && \
 	 cd $(SECDIR)/optee_os && \
+	 if [ -d $(FBDIR)/patch/optee_os ] && [ ! -f .patchdone ]; then \
+	     git am $(FBDIR)/patch/optee_os/*.patch && touch .patchdone; \
+	 fi && \
 	 if [ $(SOCFAMILY) = LS ]; then \
 		 if [ $(MACHINE) = lx2162aqds ]; then \
 		     brd=lx2160aqds; \

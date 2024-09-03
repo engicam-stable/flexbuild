@@ -53,6 +53,15 @@
 			compression = "none";
 			load = <0x90000000>;
 		};
+		imx8mpicore-dtb {
+			description = "Flattened Device Tree blob";
+			data = /incbin/("../../build/linux/kernel/arm64/IMX/imx8mp-icore-starterkit.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			os = "linux";
+			compression = "none";
+			load = <0x90000000>;
+		};
 		imx8qmmek-dtb {
 			description = "Flattened Device Tree blob";
 			data = /incbin/("../../build/linux/kernel/arm64/IMX/imx8qm-mek.dtb");
@@ -120,6 +129,12 @@
 			description = "Boot Linux kernel";
 			kernel = "kernel";
 			fdt = "imx8mpevk-dtb";
+			ramdisk = "initrd";
+		};
+		imx8mpicore {
+			description = "Boot Linux kernel";
+			kernel = "kernel";
+			fdt = "imx8mpicore-dtb";
 			ramdisk = "initrd";
 		};
 		imx8mmevk {

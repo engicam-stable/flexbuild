@@ -340,7 +340,14 @@ flex_install_distro() {
 
     if [ $instruction = auto -o $instruction = install -o $instruction = null ]; then
 	if [ $bootpartnum != 0 ]; then
-	    uuid_boot=$(lsblk -l --output UUID $bootdev | grep -)
+	    #uuid_boot=$(lsblk -l --output UUID $bootdev | grep -)
+	    for file in $(ls /dev/disk/by-uuid/*); do
+	        devfile=`echo $(readlink $file) | sed -e s/'\.*\/*'/''/g`
+		if [ $devfile = ${bootdev#/*/} ] ; then
+		    #echo "${file} ---> /dev/${devfile}";
+		    uuid_boot=$(basename $file)
+		fi
+	    done
 	    [ -z "$uuid_boot" ] && print_e "Failed to get PARTUUID on $bootdev, please partition and format /dev/$devname" && exit
 	    bootmountfile=$rootpartition/lib/systemd/system/boot.mount
 	    if [ -f $bootmountfile ] && grep -q '^What=UUID=' $bootmountfile; then
@@ -623,7 +630,7 @@ if [ -n "$instruction" ] && [ $instruction != auto -a $instruction != pf -a $ins
 fi
 
 ls_machine_list='ls1012ardb ls1012afrwy ls1021atwr ls1028ardb ls1043ardb ls1046ardb ls1046afrwy ls1088ardb ls2088ardb lx2160ardb lx2162aqds '
-imx_machine_list='imx6qpsabresd imx6qsabresd imx6sllevk imx7ulpevk imx8mmevk imx8mnevk imx8mpevk imx8mqevk imx8qmmek imx8qxpmek imx8ulpevk imx93evk '
+imx_machine_list='imx6qpsabresd imx6qsabresd imx6sllevk imx7ulpevk imx8mmevk imx8mnevk imx8mpevk imx8mpicore imx8mqevk imx8qmmek imx8qxpmek imx8ulpevk imx93evk '
 
 if [ "$instruction" = list ]; then
     print_n "\nSupported machine list:"

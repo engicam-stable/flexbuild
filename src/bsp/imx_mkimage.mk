@@ -36,6 +36,8 @@ define imx_mkimage_target
 	SOC=iMX8MP; SOC_FAMILY=iMX8M; target=flash_ddr4_evk; \
     elif echo $1 | grep -qE ^imx8mp_evk; then \
 	SOC=iMX8MP; SOC_FAMILY=iMX8M; target=flash_evk; \
+    elif echo $1 | grep -qE ^imx8mp_icore; then \
+	SOC=iMX8MP; SOC_FAMILY=iMX8M; dtbs=imx8mp-icore.dtb; target=flash_evk; \
     elif echo $1 | grep -qE ^imx8mm_ddr4_evk; then \
 	SOC=iMX8MM; SOC_FAMILY=iMX8M; target=flash_ddr4_evk; \
     elif echo $1 | grep -qE ^imx8mm_evk; then \
@@ -96,12 +98,12 @@ define imx_mkimage_target
     cp -f $$opdir/tools/mkimage $(BSPDIR)/imx_mkimage/$$SOC_FAMILY/mkimage_uboot; \
     cp -f $(BSPDIR)/atf/build/$$plat/release/bl31.bin $(BSPDIR)/imx_mkimage/$$SOC_FAMILY/; \
     \
-    $(MAKE) SOC=$$SOC $$REV_OPTION $$target && \
+    $(MAKE) SOC=$$SOC $$REV_OPTION dtbs=$$dtbs $$target && \
     mkdir -p $(FBOUTDIR)/bsp/imx-mkimage/$$brd && \
     if [ $(MACHINE) = imx8mpevk -o $(MACHINE) = imx8mnevk -o $(MACHINE) = imx8mmevk -o \
 	   $(MACHINE) = imx8mqevk ] && [ $$target = flash_ddr4_evk -o $$target = flash_ddr4_val ]; then \
 	cp $$SOC_FAMILY/flash.bin $(FBOUTDIR)/bsp/imx-mkimage/$$brd/flash-ddr4.bin; \
-    elif [ $(MACHINE) = imx8mpevk -o $(MACHINE) = imx8mnevk -o $(MACHINE) = imx8mmevk -o \
+    elif [ $(MACHINE) = imx8mpevk -o $(MACHINE) = imx8mpicore -o $(MACHINE) = imx8mnevk -o $(MACHINE) = imx8mmevk -o \
 	   $(MACHINE) = imx8mqevk ] && [ $$target = flash_evk ]; then \
 	cp $$SOC_FAMILY/flash.bin $(FBOUTDIR)/bsp/imx-mkimage/$$brd/flash-lpddr4.bin; \
     elif [ $(MACHINE) = imx8ulpevk -a $$target = flash_singleboot ]; then \

@@ -37,7 +37,7 @@ device (SD/eMMC card or USB/SATA disk) on target board or on host machine.
 ----------------------
 - __iMX platform__:  
 imx6qpsabresd, imx6qsabresd, imx6sllevk, imx7ulpevk, imx8mmevk, imx8mnevk, imx8mpevk,  
-imx8mqevk, imx8qmmek, imx8qxpmek, imx8ulpevk, imx93evk, etc
+imx8mpicore, imx8mqevk, imx8qmmek, imx8qxpmek, imx8ulpevk, imx93evk, etc
 
 - __Layerscape platform__:  
 ls1012ardb, ls1012afrwy, ls1021atwr, ls1028ardb, ls1043ardb, ls1046ardb, ls1046afrwy,  
@@ -93,4 +93,4 @@ Most used example with separate command:
 
 ## More info
 ------------
-Please refer to [flexbuild_usage](docs/flexbuild_usage.md), [build_and_deploy_distro](docs/build_and_deploy_distro.md), [nxp_linux_sdk](docs/nxp_linux_sdk.md) for detailed information.
+Please refer to [flexbuild_usage](docs/flexbuild_usage.md), [build_and_deploy_distro](docs/build_and_deploy_distro.md), [nxp_linux_sdk](docs/nxp_linux_sdk.md), [engicam_boards](docs/engicam_boards.md) for detailed information.

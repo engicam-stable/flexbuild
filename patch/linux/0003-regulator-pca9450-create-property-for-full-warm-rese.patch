@@ -1,0 +1,52 @@
+From ad3db0dca90bff00afb1c574a111920d9b94b891 Mon Sep 17 00:00:00 2001
+From: Fabio Aiuto <fabio.aiuto@engicam.com>
+Date: Thu, 27 Jun 2024 12:13:53 +0200
+Subject: [PATCH 2/3] regulator: pca9450: create property for full warm reset
+
+Create property to enable warm reset from devicetree for
+both WDOG_B and PMIC_RST signals.
+---
+ drivers/regulator/pca9450-regulator.c | 4 +++-
+ include/linux/regulator/pca9450.h     | 6 ++++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/regulator/pca9450-regulator.c b/drivers/regulator/pca9450-regulator.c
+index ca16964b911d..de64d23da41a 100644
+--- a/drivers/regulator/pca9450-regulator.c
++++ b/drivers/regulator/pca9450-regulator.c
+@@ -1079,12 +1079,14 @@ static int pca9450_i2c_probe(struct i2c_client *i2c)
+ 
+ 	if (of_property_read_bool(i2c->dev.of_node, "nxp,wdog_b-warm-reset"))
+ 		reset_ctrl = WDOG_B_CFG_WARM;
++	else if (of_property_read_bool(i2c->dev.of_node, "engi,pmic_rst-warm-reset"))
++		reset_ctrl = WDOG_B_CFG_WARM | PMIC_RST_CFG_WARM;
+ 	else
+ 		reset_ctrl = WDOG_B_CFG_COLD_LDO12;
+ 
+ 	/* Set reset behavior on assertion of WDOG_B signal */
+ 	ret = regmap_update_bits(pca9450->regmap, PCA9450_REG_RESET_CTRL,
+-				 WDOG_B_CFG_MASK, reset_ctrl);
++				 WDOG_B_CFG_MASK | PMIC_RST_CFG_MASK, reset_ctrl);
+ 	if (ret) {
+ 		dev_err(&i2c->dev, "Failed to set WDOG_B reset behavior\n");
+ 		return ret;
+diff --git a/include/linux/regulator/pca9450.h b/include/linux/regulator/pca9450.h
+index a338b705f607..01c246132f71 100644
+--- a/include/linux/regulator/pca9450.h
++++ b/include/linux/regulator/pca9450.h
+@@ -229,6 +229,12 @@ enum {
+ #define WDOG_B_CFG_COLD_LDO12		0x80
+ #define WDOG_B_CFG_COLD			0xC0
+ 
++#define PMIC_RST_CFG_MASK		0x30
++#define PMIC_RST_CFG_NONE		0x00
++#define PMIC_RST_CFG_WARM		0x10
++#define PMIC_RST_CFG_COLD_LDO12		0x20
++#define PMIC_RST_CFG_COLD		0x30
++
+ /* PCA9450_REG_CONFIG2 bits */
+ #define I2C_LT_MASK			0x03
+ #define I2C_LT_FORCE_DISABLE		0x00
+-- 
+2.34.1
+

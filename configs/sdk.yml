@@ -59,7 +59,7 @@ BUILD:
 # default kernel config list
 KERNEL_CONFIG:
   ARM64_LS:  "defconfig lsdk.config"
-  ARM64_IMX: "defconfig imx.config imx_v8_defconfig"
+  ARM64_IMX: "defconfig imx.config imx_v8_defconfig engi_v8_defconfig"
   ARM32_LS:  "multi_v7_defconfig multi_v7_lpae.config lsdk.config"
   ARM32_IMX: "imx_v7_defconfig"
 
@@ -399,6 +399,13 @@ repo:
     url:  https://github.com/nxp-imx/mfgtools.git
     tag:  uuu_1.5.165
 
+  brcm_patchram_plus:
+    url:  https://github.com/AsteroidOS/brcm-patchram-plus.git
+    commit: 15bd6638dd
+
+  engicam_test_tools:
+    url:  https://github.com/engicam-stable/meta-engicam-nxp.git
+    commit: 6260002d82
 
 # connectivity component repositories
   nxp_wlan_bt:
