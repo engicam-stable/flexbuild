@@ -24,14 +24,14 @@ To deploy on SD card the distro, plug your SD card into your host machine and ru
 ```
 $ cd build_lsdk*/images
 $ flex-installer -i pf -d /dev/sdx
-$ flex-installer -d /dev/sdx -m imx8mpicore -f firmware_imx8mpicore_sdboot_lpddr4.img -b  boot_IMX_arm64_lts_6.6.3.tar.zst -r ../rfs/rootfs_lsdk*_debian_desktop_arm64
+$ flex-installer -d /dev/sdx -m imx8mpicore -f firmware_imx8mpicore_sdboot_lpddr4.img -b boot_IMX_arm64_lts_6.6.3.tar.zst -r ../rfs/rootfs_lsdk*_debian_desktop_arm64
 ```
 It will take some time.
 To flash the distro on EMMC download the firmware, boot and rootfs files on the board
 and run:
 ```
 $ flex-installer -i pf -d /dev/mmcblk2
-$ flex-installer -d /dev/mmcblk2 -m imx8mpicore -f firmware -b boot -r rootfs
+$ flex-installer -d /dev/mmcblk2 -m imx8mpicore -f firmware_imx8mpicore_sdboot_lpddr4.img -b boot_IMX_arm64_lts_6.6.3.tar.zst -r rootfs_lsdk*_debian_desktop_arm64.tar.zst
 ```
 ## Build single components
 --------------------------
