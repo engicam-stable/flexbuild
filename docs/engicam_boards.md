@@ -1,5 +1,12 @@
+
 ## Build Engicam Boards
 -----------------------
+Prerequisite: add user to docker group
+
+```
+  sudo usermod -aG docker $USER
+```
+
 First of all fetch flexbuild repo and build and start the docker container:
 ```
 $ git clone https://git.engicam.com/engicam/flexbuild.git
@@ -20,8 +27,11 @@ $ bld -m imx8mpicore -r debian:server
 ```
 ## Deploy
 ---------
-To deploy on SD card the distro, plug your SD card into your host machine and run:
+To deploy on SD card the distro, plug your SD card into your host machine and run :
 ```
+$ sudo su
+$ cd flexbuild
+$ . setup.env
 $ cd build_lsdk*/images
 $ flex-installer -i pf -d /dev/sdx
 $ flex-installer -d /dev/sdx -m imx8mpicore -f firmware_imx8mpicore_sdboot_lpddr4.img -b boot_IMX_arm64_lts_6.6.3.tar.zst -r ../rfs/rootfs_lsdk*_debian_desktop_arm64
