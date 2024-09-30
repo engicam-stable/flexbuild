@@ -10,7 +10,7 @@ Prerequisite: add user to docker group
 First of all fetch flexbuild repo and build and start the docker container:
 
 ```
-$ git clone https://git.engicam.com/engicam/flexbuild.git
+$ git clone https://github.com/engicam-stable/flexbuild.git
 $ cd flexbuild
 $ . setup.env
 $ bld docker
